@@ -1,6 +1,13 @@
 version: '3.7'
 
 services: 
+  meu-mongodb:  # Novo serviço MongoDB
+    container_name: meu-mongodb
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - db_data:/data/db
   hackaton:
     container_name: snackhub-hackaton-app
     build: .
@@ -11,8 +18,10 @@ services:
       - PORT_SMTP=465
       - USER_SMTP=igor.catrinion@gmail.com
       - PW_SMTP=cavz kkbk yifl mzzm
-
     ports:
       - 8080:8080
+    depends_on:
+      - meu-mongodb
+
 volumes:
   db_data:
