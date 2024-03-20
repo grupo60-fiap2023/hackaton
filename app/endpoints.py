@@ -10,7 +10,7 @@ import smtplib
 from io import StringIO
 import secrets
 import random
-import json
+import os
 
 
 router = APIRouter()
@@ -193,15 +193,14 @@ def gerar_string_csv(registros):
         # Retornar a string CSV
         return csv_buffer.getvalue()
     except Exception as e:
-        print("Erro ao gerar string CSV:", e)
         return None
 
 def enviar_email(destinatario, mensagem):
     # Configurações do servidor SMTP
-    servidor_smtp = "smtp.gmail.com"
-    porta_smtp = 465  # Porta padrão para SMTP
-    usuario_smtp = "igor.catrinion@gmail.com"
-    senha_smtp = "cavz kkbk yifl mzzm"
+    servidor_smtp = os.environ.get("SERVER_SMTP")#"smtp.gmail.com"
+    porta_smtp = os.environ.get("PORT_SMTP")#465  # Porta padrão para SMTP
+    usuario_smtp = os.environ.get("USER_SMTP")#"igor.catrinion@gmail.com"
+    senha_smtp = os.environ.get("PW_SMTP")#"cavz kkbk yifl mzzm"
     server = smtplib.SMTP_SSL(servidor_smtp, porta_smtp)
 
     server.login(usuario_smtp, senha_smtp)
@@ -227,8 +226,6 @@ def relatoriomespassado(token: str = Depends(oauth_scheme)):
     # Obtendo todos os registros do mês anterior
     registros_mes_anterior = collection_ponto.find(filtro)
     csv_msg = gerar_string_csv(registros_mes_anterior)
-    print(csv_msg)
-    print(funcionario['Email'])
     enviar_email(funcionario['Email'], csv_msg)
     return {'detail' : "Registros enviados para o email do funcionario logado."}
     

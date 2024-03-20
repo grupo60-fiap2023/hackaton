@@ -1,0 +1,18 @@
+version: '3.7'
+
+services: 
+  hackaton:
+    container_name: snackhub-hackaton-app
+    build: .
+    environment:
+      - HOST_DB=meu-mongodb
+      - PORT_DB=27017
+      - SERVER_SMTP=smtp.gmail.com
+      - PORT_SMTP=465
+      - USER_SMTP=igor.catrinion@gmail.com
+      - PW_SMTP=cavz kkbk yifl mzzm
+
+    ports:
+      - 8080:8080
+volumes:
+  db_data:

@@ -1,7 +1,12 @@
 from pymongo import MongoClient
+import os
 
 # String de conexão ao banco de dados MongoDB
-uri = "mongodb://localhost:27017"
+
+host = os.environ.get("HOST_DB")
+port = os.environ.get("PORT_DB")
+
+uri = f"mongodb://{host}:{port}"
 
 # Nome do banco de dados e coleção
 database_name = "hackaton"
